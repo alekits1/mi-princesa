@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Para mi reina ❤️</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(circle at center, #3b1028 0%, #180817 45%, #08030b 100%);
+      color: white;
+      font-family: Georgia, "Times New Roman", serif;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    .pantalla {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 30px 18px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .contenido {
+      width: min(900px, 100%);
+    }
+
+    .oculto {
+      display: none !important;
+    }
+
+    .entrada {
+      animation: aparecer 1.5s ease;
+    }
+
+    .brillo {
+      font-size: clamp(2rem, 7vw, 4.5rem);
+      margin-bottom: 20px;
+      animation: latido 1.8s infinite;
+    }
+
+    .titulo {
+      font-size: clamp(1.8rem, 6vw, 3.8rem);
+      color: #ffd6e8;
+      text-shadow: 0 0 18px #ff4f9a;
+      margin: 10px 0;
+    }
+
+    .subtitulo {
+      font-size: clamp(1.1rem, 3vw, 1.6rem);
+      color: #ffc1dc;
+      margin: 25px 0 35px;
+    }
+
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 15px 30px;
+      font-size: 1.1rem;
+      font-family: inherit;
+      cursor: pointer;
+      color: white;
+      background: linear-gradient(135deg, #ff3f8e, #b51f66);
+      box-shadow: 0 0 25px rgba(255, 63, 142, .55);
+      transition: transform .25s, box-shadow .25s;
+    }
+
+    button:hover {
+      transform: scale(1.06);
+      box-shadow: 0 0 35px rgba(255, 63, 142, .85);
+    }
+
+    .cuenta {
+      font-size: clamp(5rem, 20vw, 10rem);
+      font-weight: bold;
+      color: #ffb3d2;
+      text-shadow: 0 0 30px #ff277d, 0 0 60px #ff277d;
+      animation: zoom .8s ease;
+    }
+
+    .mensaje-espera {
+      font-size: clamp(1.2rem, 4vw, 2rem);
+      color: #ffd8e8;
+    }
+
+    /* CORAZÓN */
+    .corazon {
+      width: min(430px, 80vw);
+      height: min(390px, 73vw);
+      position: relative;
+      margin: 20px auto 40px;
+      transform: rotate(-45deg);
+      animation: corazonLatido 1.3s infinite;
+      filter: drop-shadow(0 0 25px rgba(255, 40, 120, .7));
+    }
+
+    .corazon::before,
+    .corazon::after,
+    .corazon-centro {
+      content: "";
+      position: absolute;
+      background: linear-gradient(135deg, #ff4d99, #c91461);
+    }
+
+    .corazon-centro {
+      width: 68%;
+      height: 68%;
+      left: 16%;
+      top: 16%;
+      border-radius: 8px;
+    }
+
+    .corazon::before {
+      width: 68%;
+      height: 68%;
+      left: 0;
+      top: 0;
+      border-radius: 50%;
+    }
+
+    .corazon::after {
+      width: 68%;
+      height: 68%;
+      right: 0;
+      bottom: 0;
+      border-radius: 50%;
+    }
+
+    .corazon-texto {
+      position: absolute;
+      z-index: 3;
+      transform: rotate(45deg);
+      width: 100%;
+      top: 43%;
+      left: 0;
+      color: white;
+      font-weight: bold;
+      font-size: clamp(1.1rem, 4vw, 1.8rem);
+      text-shadow: 0 2px 8px #7c003b;
+      letter-spacing: 1px;
+    }
+
+    .carta {
+      max-width: 820px;
+      margin: auto;
+      padding: clamp(25px, 6vw, 55px);
+      border: 1px solid rgba(255, 180, 215, .35);
+      border-radius: 25px;
+      background: rgba(50, 8, 35, .68);
+      box-shadow: 0 0 40px rgba(255, 53, 139, .25);
+      backdrop-filter: blur(8px);
+      text-align: left;
+      animation: subir 1.3s ease;
+    }
+
+    .carta h2 {
+      text-align: center;
+      color: #ffb9d8;
+      font-size: clamp(1.7rem, 5vw, 2.8rem);
+      margin-top: 0;
+      margin-bottom: 35px;
+      text-shadow: 0 0 15px #ff3f8e;
+    }
+
+    .linea {
+      min-height: 1.5em;
+      font-size: clamp(1rem, 2.8vw, 1.25rem);
+      line-height: 1.8;
+      color: #fff0f7;
+      margin: 0 0 12px;
+    }
+
+    .final {
+      text-align: center;
+      padding: 40px 10px;
+      animation: aparecer 2s ease;
+    }
+
+    .final-grande {
+      font-size: clamp(2rem, 8vw, 5rem);
+      color: #ffb4d4;
+      text-shadow: 0 0 20px #ff3187, 0 0 45px #ff3187;
+      animation: latido 1.4s infinite;
+    }
+
+    .final-pequeno {
+      font-size: clamp(1.2rem, 4vw, 2rem);
+      color: #ffe1ed;
+      margin-top: 20px;
+    }
+
+    .corazon-flotante {
+      position: fixed;
+      bottom: -40px;
+      z-index: 1;
+      pointer-events: none;
+      animation: subirCorazon linear forwards;
+      opacity: .8;
+    }
+
+    @keyframes aparecer {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes subir {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes zoom {
+      from { transform: scale(.3); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes latido {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+
+    @keyframes corazonLatido {
+      0%, 100% { transform: rotate(-45deg) scale(1); }
+      50% { transform: rotate(-45deg) scale(1.06); }
+    }
+
+    @keyframes subirCorazon {
+      from {
+        transform: translateY(0) rotate(0deg);
+        opacity: .8;
+      }
+      to {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .carta {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- PANTALLA INICIAL -->
+  <section id="inicio" class="pantalla">
+    <div class="contenido entrada">
+      <div class="brillo">💗</div>
+
+      <h1 class="titulo">Para mi reina 👑</h1>
+
+      <p class="subtitulo">
+        tengo algo muy especial para ti mi reina...
+      </p>
+
+      <button onclick="empezar()">Abrir mi detallito 💌</button>
+    </div>
+  </section>
+
+
+  <!-- CUENTA REGRESIVA -->
+  <section id="cuenta" class="pantalla oculto">
+    <div class="contenido">
+      <div id="numero" class="cuenta">3</div>
+      <p class="mensaje-espera">espera un poquito... ❤️</p>
+    </div>
+  </section>
+
+
+  <!-- CORAZÓN -->
+  <section id="corazonPantalla" class="pantalla oculto">
+    <div class="contenido">
+      <div class="corazon">
+        <div class="corazon-centro"></div>
+        <div class="corazon-texto">PARA TI ❤️</div>
+      </div>
+
+      <p class="mensaje-espera">Hecho con muchísimo cariño... 💕</p>
+    </div>
+  </section>
+
+
+  <!-- CARTA -->
+  <section id="cartaPantalla" class="pantalla oculto">
+    <div class="contenido">
+      <div class="carta">
+
+        <h2>💌 Mi vida... 💌</h2>
+
+        <div id="texto"></div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- FINAL -->
+  <section id="finalPantalla" class="pantalla oculto">
+    <div class="contenido final">
+
+      <div class="final-grande">
+        ❤️ 10 MESES ❤️
+      </div>
+
+      <div class="final-pequeno">
+        💗 💗 💗 💗 💗
+      </div>
+
+    </div>
+  </section>
+
+
+  <script>
+    const texto = [
+      "mi vida... se q no estoy contigo en estos momentos,",
+      "y se lo ocupada q estas haciendo tus tareas de la U,",
+      "y te queria decir que gracias por darme un poco de tu tiempo",
+      "para ver el detallito que te prepare,",
+      "no podra ser la gran cosa, pero esta hecho con un cariño inmenso.",
+      "Solo quiero que sepas que te amo como no te imaginas,",
+      "y me arrepiento de todas las discusiones,",
+      "enojos o desacuerdos que tenemos.",
+      "Te ves tan hermosa,",
+      "gracias por estar siempre a mi lado mi vida,",
+      "TU eres lo q yo siempre soñe..."
+    ];
+
+    function mostrar(id) {
+      document.querySelectorAll(".pantalla").forEach(p => {
+        p.classList.add("oculto");
+      });
+
+      document.getElementById(id).classList.remove("oculto");
+    }
+
+    function pausa(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function empezar() {
+      mostrar("cuenta");
+
+      const numero = document.getElementById("numero");
+
+      numero.textContent = "3";
+      await pausa(900);
+
+      numero.textContent = "2";
+      await pausa(900);
+
+      numero.textContent = "1";
+      await pausa(900);
+
+      mostrar("corazonPantalla");
+
+      crearCorazones();
+
+      await pausa(2800);
+
+      mostrar("cartaPantalla");
+
+      await escribirCarta();
+
+      await pausa(1800);
+
+      mostrar("finalPantalla");
+      crearCorazones();
+    }
+
+    async function escribirCarta() {
+      const contenedor = document.getElementById("texto");
+      contenedor.innerHTML = "";
+
+      for (const linea of texto) {
+        const p = document.createElement("p");
+        p.className = "linea";
+        contenedor.appendChild(p);
+
+        for (const letra of linea) {
+          p.textContent += letra;
+          await pausa(25);
+        }
+
+        await pausa(350);
+      }
+    }
+
+    function crearCorazones() {
+      const simbolos = ["❤️", "💗", "💕", "💖", "💓"];
+
+      for (let i = 0; i < 18; i++) {
+        setTimeout(() => {
+          const corazon = document.createElement("div");
+          corazon.className = "corazon-flotante";
+          corazon.textContent =
+            simbolos[Math.floor(Math.random() * simbolos.length)];
+
+          corazon.style.left = Math.random() * 100 + "vw";
+          corazon.style.fontSize = (15 + Math.random() * 25) + "px";
+          corazon.style.animationDuration = (5 + Math.random() * 5) + "s";
+
+          document.body.appendChild(corazon);
+
+          setTimeout(() => {
+            corazon.remove();
+          }, 10000);
+
+        }, i * 250);
+      }
+    }
+  </script>
+
+</body>
+</html>
